@@ -19,20 +19,27 @@ const History = () => {
 	}, []);
 
 	useEffect(() => {
+		if (!items) return;
 		dispatch(historyResourcesActions.fetchResources());
 	}, [items]);
 
 	const viewItems = useMemo(() => {
 		if (items === null) return null;
-		return items.map(({ id, name, date, resource }: Event) => (
-			<HistoryItem
-				key={id}
-				id={id}
-				name={name}
-				date={date}
-				resource={resource}
-			/>
-		));
+		return items.map(({ id, name, date, resource }: Event, index, array) => {
+			return (
+				<HistoryItem
+					key={id}
+					id={id}
+					name={
+						index === 0 || (index > 0 && array[index - 1].name !== name)
+							? name
+							: null
+					}
+					date={date}
+					resource={resource}
+				/>
+			);
+		});
 	}, [items]);
 
 	return (

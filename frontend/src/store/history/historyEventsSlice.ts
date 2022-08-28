@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { AxiosError } from "axios";
 import { Event } from "../../types/history";
+import Sort from "../../utils/sorts";
 
 type State = {
 	fetching: boolean;
@@ -23,7 +24,7 @@ const historyEventsSlice = createSlice({
 		},
 		success(state, action) {
 			state.fetching = false;
-			state.items = action.payload.items;
+			state.items = Sort.byDateAndName(action.payload.items);
 		},
 		failure(state, action) {
 			state.fetching = false;

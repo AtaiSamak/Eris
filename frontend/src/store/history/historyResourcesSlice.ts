@@ -13,7 +13,7 @@ const initialState: InitialState = {
 	fetching: false,
 	items: [],
 	error: null,
-	itemsInterval: [0, 20],
+	itemsInterval: [0, 0],
 };
 
 const historyResourcesSlice = createSlice({
@@ -24,7 +24,7 @@ const historyResourcesSlice = createSlice({
 			state.fetching = true;
 			state.itemsInterval = [
 				state.itemsInterval[1],
-				state.itemsInterval[1] + 20,
+				state.itemsInterval[1] + 15,
 			];
 		},
 		succes(state, action) {
