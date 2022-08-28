@@ -13,6 +13,16 @@ export default class Sort {
 
 	static byDateAndName(items: Event[]) {
 		const sortedByDate = Sort.byDate(items);
-		return sortedByDate;
+		const result = [];
+		for (let start = 0, end = 0; end < sortedByDate.length; end++) {
+			if (
+				new Date(sortedByDate[start].date).toDateString() !==
+				new Date(sortedByDate[end].date).toDateString()
+			) {
+				result.push(...Sort.byName(sortedByDate.slice(start, end)));
+				start = end;
+			}
+		}
+		return result;
 	}
 }

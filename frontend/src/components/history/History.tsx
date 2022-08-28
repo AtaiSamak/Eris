@@ -50,13 +50,4 @@ const History = () => {
 	);
 };
 
-// useEffect(() => {
-// 	if (items === null) return;
-// 	HistoryAPI.getResource([`${items[0].resource}/${items[0].id}`]).then(
-// 		(response) => {
-// 			console.log(response);
-// 		}
-// 	);
-// }, [items]);
-
 export default History;
