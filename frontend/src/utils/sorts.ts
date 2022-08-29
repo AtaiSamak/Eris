@@ -1,4 +1,29 @@
 import { Event } from "../types/history";
+import Group from "./group";
+
+class Utils {
+	static getWithoutAppointmentID = (items: Event[]) =>
+		items.filter((item) => !item.appointmentId);
+	static getWithAppointmentID = (items: Event[]) =>
+		items.filter((item) => item.appointmentId);
+	static getCombinedAppointmentsAndEvents = (
+		appointments: Event[],
+		groupedEvents: Event[][]
+	) => {
+		const result: Event[] = [];
+
+		appointments.forEach((appointment) => {
+			const appropriateGroupID = groupedEvents.findIndex(
+				(group) => group[0].appointmentId === appointment.id
+			);
+			result.push(appointment);
+			if (appropriateGroupID == -1) return;
+			result.push(...groupedEvents[appropriateGroupID]);
+		});
+
+		return result;
+	};
+}
 
 export default class Sort {
 	private static byDate(items: Event[]) {
@@ -7,22 +32,12 @@ export default class Sort {
 		);
 	}
 
-	private static byName(items: Event[]) {
-		return items.sort((a, b) => a.name.localeCompare(b.name));
-	}
-
-	static byDateAndName(items: Event[]) {
-		const sortedByDate = Sort.byDate(items);
-		const result = [];
-		for (let start = 0, end = 0; end < sortedByDate.length; end++) {
-			if (
-				new Date(sortedByDate[start].date).toDateString() !==
-				new Date(sortedByDate[end].date).toDateString()
-			) {
-				result.push(...Sort.byName(sortedByDate.slice(start, end)));
-				start = end;
-			}
-		}
-		return result;
+	static byAppointments(items: Event[]) {
+		const appointments = Sort.byDate(Utils.getWithoutAppointmentID(items));
+		const events = Utils.getWithAppointmentID(items);
+		const groupedEvents = Group.byAppointmentID(events).map((group) =>
+			Sort.byDate(group)
+		);
+		return Utils.getCombinedAppointmentsAndEvents(appointments, groupedEvents);
 	}
 }

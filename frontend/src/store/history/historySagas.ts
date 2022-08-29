@@ -1,8 +1,7 @@
-import axios, { AxiosResponse } from "axios";
-import { Action } from "history";
-import { call, put, select, takeLatest, takeLeading } from "redux-saga/effects";
+import { AxiosResponse } from "axios";
+import { call, put, select, takeLatest } from "redux-saga/effects";
 import HistoryAPI from "../../api/historyAPI";
-import { rootState } from "../store";
+import { RootState } from "../store";
 import { historyEventsActions } from "./historyEventsSlice";
 import { historyResourcesActions } from "./historyResourcesSlice";
 import { Event } from "../../types/history";
@@ -15,18 +14,15 @@ export function* historySagaWatcher(): any {
 function* getEvents(): any {
 	try {
 		const response: AxiosResponse = yield call(HistoryAPI.getEvents);
-		yield put({
-			...historyEventsActions.success,
-			payload: { items: response.data.items },
-		});
+		yield put(historyEventsActions.success({ items: response.data.items }));
 	} catch (error) {
-		yield put({ ...historyEventsActions.failure, payload: { error } });
+		yield put(historyEventsActions.failure({ error }));
 	}
 }
 
 function* getResources(): any {
 	try {
-		const state: rootState = yield select();
+		const state: RootState = yield select();
 		const interval = state.resources.itemsInterval;
 		if (!state.events.items || interval[0] >= state.events.items.length)
 			throw Error("Not items");
@@ -36,11 +32,8 @@ function* getResources(): any {
 			?.slice(...interval)
 			.map(({ id, resource }: Event) => `${resource}/${id}`);
 		const response: AxiosResponse = yield call(HistoryAPI.getResource, ids);
-		yield put({
-			...historyResourcesActions.succes,
-			payload: { items: response.data.items },
-		});
+		yield put(historyResourcesActions.succes({ items: response.data.items }));
 	} catch (error) {
-		yield put({ ...historyResourcesActions.failure, payload: { error } });
+		yield put(historyResourcesActions.failure({ error }));
 	}
 }

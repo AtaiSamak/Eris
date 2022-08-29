@@ -24,7 +24,7 @@ const historyEventsSlice = createSlice({
 		},
 		success(state, action) {
 			state.fetching = false;
-			state.items = Sort.byDateAndName(action.payload.items);
+			state.items = Sort.byAppointments(action.payload.items);
 		},
 		failure(state, action) {
 			state.fetching = false;
