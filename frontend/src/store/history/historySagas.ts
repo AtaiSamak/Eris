@@ -1,5 +1,5 @@
 import { AxiosResponse } from "axios";
-import { call, put, select, takeLatest } from "redux-saga/effects";
+import { call, put, select, takeEvery, takeLatest } from "redux-saga/effects";
 import HistoryAPI from "../../api/historyAPI";
 import { RootState } from "../store";
 import { historyEventsActions } from "./historyEventsSlice";
@@ -8,7 +8,7 @@ import { Event } from "../../types/history";
 
 export function* historySagaWatcher(): any {
 	yield takeLatest(historyEventsActions.fetchEvents().type, getEvents);
-	yield takeLatest(historyResourcesActions.fetchResources().type, getResources);
+	yield takeEvery(historyResourcesActions.fetchResources().type, getResources);
 }
 
 function* getEvents(): any {

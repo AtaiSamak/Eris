@@ -1,0 +1,78 @@
+
+$blue-color: rgb(188,203,249);
+$blue-border-color: rgb(164,174,219); 
+
+$bright-blue-color: rgb(153,236,255);
+$bright-blue-border-color: rgb(141,209,225);
+
+$yellow-color: rgb(219,236,184);
+$yellow-border-color: rgb(204,220,166);
+
+$red-color: rgb(255,191,218);
+$red-border-color: rgb(233,192,211);
+
+$orange-color: rgb(248,226,217);
+$orange-border-color: rgb(237,218,209);
+
+$violet-color: rgb(235,198,234);
+$violet-border-color: rgb(209,176,208);
+
+$green-color: rgb(182,234,215);
+$green-border-color: rgb(148,216,190);
+
+$magenta-color: rgba(255, 0, 255, .2);
+$magenta-border-color: rgba(255, 0, 255, .4);
+
+$lemon-color: rgba(255, 243, 79, .4);
+$lemon-border-color: rgba(255, 243, 79, 0.6);
+
+.box {
+        width: min-content;
+        padding: 0 3px ;
+        border-radius: 2px;
+}
+
+.bgBlue {
+    background-color: $blue-color;
+    border: 1px solid $blue-border-color;
+}
+
+.bgBrightBlue {
+    background-color: $bright-blue-color;
+    border: 1px solid $blue-border-color;
+}
+
+.bgYellow {
+    background-color: $yellow-color;
+    border: 1px solid $yellow-border-color;
+}
+
+.bgRed {
+    background-color: $red-color;
+    border: 1px solid $red-border-color;
+}
+
+.bgOrange {
+    background-color: $orange-color;
+    border: 1px solid $orange-border-color;
+}
+
+.bgViolet {
+    background-color: $violet-color;
+    border: 1px solid $violet-border-color;
+}
+
+.bgGreen {
+    background-color: $green-color;
+    border: 1px solid $green-border-color;
+}
+
+.bgMagenta {
+    background-color: $magenta-color;
+    border: 1px solid $magenta-border-color;
+}
+
+.bgLemon {
+    background-color: $lemon-color;
+    border: 1px solid $lemon-border-color;
+}

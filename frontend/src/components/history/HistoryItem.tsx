@@ -3,16 +3,8 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import styles from "../../styles/history/historyItem.module.scss";
 import DateUtils from "../../utils/date";
-
-const BgColours = {
-	Appointment: `${styles.type} ${styles.bgBlue}`,
-	Observation: `${styles.type} ${styles.bgBrightBlue}`,
-	Condition: `${styles.type} ${styles.bgYellow}`,
-	AllergyIntolerance: `${styles.type} ${styles.bgRed}`,
-	Diagnosis: `${styles.type} ${styles.bgOrange}`,
-	CarePlan: `${styles.type} ${styles.bgViolet}`,
-	MedicationStatement: `${styles.type} ${styles.bgGreen}`,
-};
+import Spinner from "../common/Spinner";
+import { BgColours } from "../../constants/history";
 
 type HistoryItemProps = {
 	id: string;
@@ -23,8 +15,8 @@ type HistoryItemProps = {
 
 const HistoryItem = forwardRef<HTMLTableRowElement, HistoryItemProps>(
 	({ id, name, date, resource }, ref) => {
-		const eventsDetail = useSelector(
-			(state: RootState) => state.resources.items
+		const { items: eventsDetail } = useSelector(
+			(state: RootState) => state.resources
 		);
 
 		const detail = useMemo(() => {
@@ -32,6 +24,7 @@ const HistoryItem = forwardRef<HTMLTableRowElement, HistoryItemProps>(
 			const index = eventsDetail.findIndex(
 				(value) => value.id === `${resource}/${id}`
 			);
+			if (index === -1) return null;
 			return eventsDetail[index];
 		}, [eventsDetail]);
 
@@ -48,13 +41,16 @@ const HistoryItem = forwardRef<HTMLTableRowElement, HistoryItemProps>(
 					) : null}
 				</td>
 				<td>
-					{detail && detail.details}
-					{detail && detail.values && detail.values.length > 0
-						? `: ${detail.values.join(", ")}`
-						: null}
+					<div className={styles.onlyThreeLine}>
+						{!detail ? <Spinner /> : null}
+						{detail && detail.details}
+						{detail && detail.values && detail.values.length > 0
+							? `: ${detail.values.join(", ")}`
+							: null}
+					</div>
 				</td>
 				<td>{detail && detail.code}</td>
-				<td className={name ? "" : styles.greyDate}>
+				<td className={`${styles.noTextWrap} ${name ? "" : styles.greyDate}`}>
 					{DateUtils.formatDate(new Date(date))}
 				</td>
 			</tr>

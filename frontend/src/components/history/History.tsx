@@ -15,6 +15,7 @@ import { historyEventsActions } from "../../store/history/historyEventsSlice";
 import { Event } from "../../types/history";
 import { historyResourcesActions } from "../../store/history/historyResourcesSlice";
 import useScroll from "../../hooks/useScroll";
+import HistoryColumns from "./HistoryColumns";
 
 const History = () => {
 	const { items } = useSelector((store: RootState) => store.events);
@@ -54,6 +55,7 @@ const History = () => {
 
 	return (
 		<table className={styles.table}>
+			<HistoryColumns />
 			<HistoryHeader />
 			<tbody>{viewItems}</tbody>
 		</table>
