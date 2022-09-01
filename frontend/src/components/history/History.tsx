@@ -12,9 +12,22 @@ import HistoryColumns from "./HistoryColumns";
 import Spinner from "../common/Spinner";
 import useMobile from "../../hooks/useMobile";
 
+const NoticesUI = {
+	Error: () => <div className={styles.error}>Something goes wrong</div>,
+	Loading: () => (
+		<div className={styles.spinnerWrapper}>
+			<Spinner />
+		</div>
+	),
+};
+
 const History = () => {
 	const dispatch = useDispatch();
-	const { items: events } = useSelector((store: RootState) => store.events);
+	const {
+		items: events,
+		error,
+		fetching,
+	} = useSelector((store: RootState) => store.events);
 	const gapEnd = useSelector((store: RootState) => store.resources.itemsGap[1]);
 	const footerElementRef = useRef<HTMLDivElement>(null);
 	const isMobile = useMobile();
@@ -45,8 +58,12 @@ const History = () => {
 						isMobile={isMobile}
 					/>
 				)),
-		[gapEnd]
+		[gapEnd, isMobile]
 	);
+
+	if (fetching || error) {
+		return error ? NoticesUI.Error() : NoticesUI.Loading();
+	}
 
 	return (
 		<>

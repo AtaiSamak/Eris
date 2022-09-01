@@ -22,7 +22,7 @@ const HistoryItem: FC<HistoryItemProps> = ({
 	);
 
 	const resourceDetails = useMemo(() => {
-		if (!resources) return;
+		if (!resources) return null;
 		const index = resources.findIndex((value) => value.id === resourceID);
 		if (index === -1) return null;
 		return resources[index];

@@ -9,7 +9,7 @@ import Navigation from "../navigation";
 const App = () => (
 	<div className={styles.container}>
 		<div className={styles.app}>
-			<header className={styles.header}>
+			<header>
 				<Navigation />
 			</header>
 			<main>
