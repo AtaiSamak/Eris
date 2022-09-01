@@ -39,7 +39,9 @@ const HistoryItemMobileTemplate: FC<HistoryItemMobileTemplateProps> = ({
 				<td>
 					<div className={styles.onlyThreeLine}>{detail}</div>
 				</td>
-				<td className={`${styles.noTextWrap} ${name ? "" : styles.greyDate}`}>
+				<td
+					className={`${styles.noTextWrap} ${styles.textAlignEnd} ${styles.greyDate}`}
+				>
 					{code}
 				</td>
 			</tr>

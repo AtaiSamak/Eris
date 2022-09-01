@@ -3,10 +3,11 @@
 body {
 	font-family: "Roboto", sans-serif;
 	font-size: 14px;
+	margin: 0;
 }
 
 *,
 *::before,
 *::after {
-	margin: 0;
+	box-sizing: border-box;
 }
