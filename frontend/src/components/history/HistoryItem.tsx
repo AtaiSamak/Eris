@@ -1,6 +1,6 @@
 import React, { FC, forwardRef, useMemo } from "react";
 import { useSelector } from "react-redux";
-import { RootState } from "../../store/store";
+import { RootState } from "../../store/rootStore";
 import styles from "../../styles/history/historyItem.module.scss";
 import DateUtils from "../../utils/date";
 import Spinner from "../common/Spinner";

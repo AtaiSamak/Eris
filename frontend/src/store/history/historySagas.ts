@@ -1,7 +1,7 @@
 import { AxiosResponse } from "axios";
 import { call, put, select, takeEvery, takeLatest } from "redux-saga/effects";
 import HistoryAPI from "../../api/historyAPI";
-import { RootState } from "../store";
+import { RootState } from "../rootStore";
 import { historyEventsActions } from "./historyEventsSlice";
 import { historyResourcesActions } from "./historyResourcesSlice";
 import { Event } from "../../types/history";

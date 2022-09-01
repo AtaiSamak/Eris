@@ -1,0 +1,27 @@
+.wrapper {
+	margin: 15px 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	gap: 1.5em;
+}
+
+.link {
+	color: inherit;
+	display: block;
+	text-decoration: none;
+	padding: 5px 15px;
+}
+
+.activeLink {
+	background-color: #000;
+	border-radius: 999em;
+	color: #fff;
+}

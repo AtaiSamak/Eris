@@ -3,7 +3,7 @@ import HistoryHeader from "./HistoryHeader";
 import styles from "../../styles/history/history.module.scss";
 import HistoryItem from "./HistoryItem";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../store/store";
+import { RootState } from "../../store/rootStore";
 import { historyEventsActions } from "../../store/history/historyEventsSlice";
 import { Event } from "../../types/history";
 import { historyResourcesActions } from "../../store/history/historyResourcesSlice";

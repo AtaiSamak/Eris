@@ -1,16 +1,12 @@
-import { configureStore, applyMiddleware } from "@reduxjs/toolkit";
-import eventsReducer from "./history/historyEventsSlice";
+import { configureStore } from "@reduxjs/toolkit";
 import createSagaMiddleware from "redux-saga";
 import { historySagaWatcher } from "./history/historySagas";
-import resourcesReducer from "./history/historyResourcesSlice";
+import rootReducer from "./rootReducer";
 
 const sagaMiddleware = createSagaMiddleware();
 
 const store = configureStore({
-	reducer: {
-		events: eventsReducer,
-		resources: resourcesReducer,
-	},
+	reducer: rootReducer,
 	middleware: [sagaMiddleware],
 });
 
