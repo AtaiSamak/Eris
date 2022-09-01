@@ -10,12 +10,14 @@ import { historyResourcesActions } from "../../store/history/historyResourcesSli
 import useScroll from "../../hooks/useScroll";
 import HistoryColumns from "./HistoryColumns";
 import Spinner from "../common/Spinner";
+import useMobile from "../../hooks/useMobile";
 
 const History = () => {
 	const dispatch = useDispatch();
 	const { items: events } = useSelector((store: RootState) => store.events);
 	const gapEnd = useSelector((store: RootState) => store.resources.itemsGap[1]);
 	const footerElementRef = useRef<HTMLDivElement>(null);
+	const isMobile = useMobile();
 
 	useScroll(footerElementRef, () => {
 		dispatch(historyResourcesActions.fetchResources());
@@ -28,10 +30,10 @@ const History = () => {
 	const viewItems = useMemo(
 		() =>
 			events &&
-			events.map(({ id, name, date, resource }: Event, index, array) =>
-				index < gapEnd ? (
+			events
+				.slice(0, gapEnd)
+				.map(({ id, name, date, resource }: Event, index, array) => (
 					<HistoryItem
-						id={id}
 						key={id}
 						name={
 							index === 0 || (index > 0 && array[index - 1].name !== name)
@@ -40,17 +42,17 @@ const History = () => {
 						}
 						date={date}
 						resourceID={`${resource}/${id}`}
+						isMobile={isMobile}
 					/>
-				) : null
-			),
+				)),
 		[gapEnd]
 	);
 
 	return (
 		<>
 			<table className={styles.table}>
-				<HistoryColumns />
-				<HistoryHeader />
+				<HistoryColumns isMobile={isMobile} />
+				<HistoryHeader isMobile={isMobile} />
 				<tbody>{viewItems}</tbody>
 			</table>
 			{events && gapEnd < events?.length ? (

@@ -1,7 +1,13 @@
-import React from "react";
+import React, { FC } from "react";
 import styles from "../../styles/history/historyHeader.module.scss";
 
-const HistoryHeader = () => {
+type HistoryHeaderProps = {
+	isMobile: boolean;
+};
+
+const HistoryHeader: FC<HistoryHeaderProps> = ({ isMobile }) => {
+	if (isMobile) return null;
+
 	return (
 		<thead>
 			<tr className={styles.tr}>
