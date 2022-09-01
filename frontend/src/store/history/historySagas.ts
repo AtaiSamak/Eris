@@ -23,7 +23,7 @@ function* getEvents(): any {
 function* getResources(): any {
 	try {
 		const state: RootState = yield select();
-		const interval = state.resources.itemsInterval;
+		const interval = state.resources.itemsGap;
 		if (!state.events.items || interval[0] >= state.events.items.length)
 			throw Error("Not items");
 		if (interval[1] > state.events.items.length)

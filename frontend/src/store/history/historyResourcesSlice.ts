@@ -6,14 +6,14 @@ type InitialState = {
 	fetching: boolean;
 	items: Resource[];
 	error: null | AxiosError | Error;
-	itemsInterval: [number, number];
+	itemsGap: [number, number];
 };
 
 const initialState: InitialState = {
 	fetching: false,
 	items: [],
 	error: null,
-	itemsInterval: [0, 0],
+	itemsGap: [0, 0],
 };
 
 const historyResourcesSlice = createSlice({
@@ -22,10 +22,7 @@ const historyResourcesSlice = createSlice({
 	reducers: {
 		fetchResources(state) {
 			state.fetching = true;
-			state.itemsInterval = [
-				state.itemsInterval[1],
-				state.itemsInterval[1] + 15,
-			];
+			state.itemsGap = [state.itemsGap[1], state.itemsGap[1] + 15];
 		},
 		succes(state, action) {
 			state.fetching = false;

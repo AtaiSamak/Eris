@@ -1,4 +1,13 @@
 .table {
-    width: 100%;
-    border-collapse: collapse;
+	width: 100%;
+	border-collapse: collapse;
+}
+
+.spinnerWrapper {
+	width: 100%;
+	margin: 15px 0;
+	height: 50px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }

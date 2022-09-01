@@ -1,4 +1,4 @@
-import { ElementRef, Ref, RefObject, useEffect, useRef } from "react";
+import { RefObject, useEffect, useRef } from "react";
 
 const useScroll = (childRef: RefObject<Element>, callback: () => void) => {
 	const observer = useRef<IntersectionObserver>();
@@ -9,7 +9,7 @@ const useScroll = (childRef: RefObject<Element>, callback: () => void) => {
 		const options = {
 			root: document.querySelector("#scrollArea"),
 			rootMargin: "0px",
-			threshold: 0,
+			threshold: 0.5,
 		};
 		observer.current = new IntersectionObserver(([target]) => {
 			if (target.isIntersecting) {

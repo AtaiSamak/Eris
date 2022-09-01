@@ -1,31 +1,23 @@
-import React, {
-	Fragment,
-	useCallback,
-	useEffect,
-	useMemo,
-	useRef,
-	useState,
-} from "react";
+import React, { useEffect, useMemo, useRef } from "react";
 import HistoryHeader from "./HistoryHeader";
 import styles from "../../styles/history/history.module.scss";
 import HistoryItem from "./HistoryItem";
 import { useDispatch, useSelector } from "react-redux";
-import store, { RootState } from "../../store/store";
+import { RootState } from "../../store/store";
 import { historyEventsActions } from "../../store/history/historyEventsSlice";
 import { Event } from "../../types/history";
 import { historyResourcesActions } from "../../store/history/historyResourcesSlice";
 import useScroll from "../../hooks/useScroll";
 import HistoryColumns from "./HistoryColumns";
+import Spinner from "../common/Spinner";
 
 const History = () => {
-	const { items } = useSelector((store: RootState) => store.events);
 	const dispatch = useDispatch();
-	const observeRowID = useSelector(
-		(store: RootState) => store.resources.itemsInterval[1]
-	);
-	const tableRowRef = useRef<HTMLTableRowElement>(null);
+	const { items: events } = useSelector((store: RootState) => store.events);
+	const gapEnd = useSelector((store: RootState) => store.resources.itemsGap[1]);
+	const footerElementRef = useRef<HTMLDivElement>(null);
 
-	useScroll(tableRowRef, () => {
+	useScroll(footerElementRef, () => {
 		dispatch(historyResourcesActions.fetchResources());
 	});
 
@@ -33,32 +25,40 @@ const History = () => {
 		dispatch(historyEventsActions.fetchEvents());
 	}, []);
 
-	const viewItems = useMemo(() => {
-		if (items === null) return null;
-		return items.map(({ id, name, date, resource }: Event, index, array) => {
-			return (
-				<HistoryItem
-					id={id}
-					name={
-						index === 0 || (index > 0 && array[index - 1].name !== name)
-							? name
-							: null
-					}
-					date={date}
-					resource={resource}
-					ref={index === observeRowID ? tableRowRef : null}
-					key={id}
-				/>
-			);
-		});
-	}, [items, observeRowID]);
+	const viewItems = useMemo(
+		() =>
+			events &&
+			events.map(({ id, name, date, resource }: Event, index, array) =>
+				index < gapEnd ? (
+					<HistoryItem
+						id={id}
+						key={id}
+						name={
+							index === 0 || (index > 0 && array[index - 1].name !== name)
+								? name
+								: null
+						}
+						date={date}
+						resourceID={`${resource}/${id}`}
+					/>
+				) : null
+			),
+		[gapEnd]
+	);
 
 	return (
-		<table className={styles.table}>
-			<HistoryColumns />
-			<HistoryHeader />
-			<tbody>{viewItems}</tbody>
-		</table>
+		<>
+			<table className={styles.table}>
+				<HistoryColumns />
+				<HistoryHeader />
+				<tbody>{viewItems}</tbody>
+			</table>
+			{events && gapEnd < events?.length ? (
+				<div className={styles.spinnerWrapper} ref={footerElementRef}>
+					<Spinner />
+				</div>
+			) : null}
+		</>
 	);
 };
 

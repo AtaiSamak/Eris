@@ -10,52 +10,46 @@ type HistoryItemProps = {
 	id: string;
 	name: string | null;
 	date: string;
-	resource: string;
+	resourceID: string;
 };
 
-const HistoryItem = forwardRef<HTMLTableRowElement, HistoryItemProps>(
-	({ id, name, date, resource }, ref) => {
-		const { items: eventsDetail } = useSelector(
-			(state: RootState) => state.resources
-		);
+const HistoryItem: FC<HistoryItemProps> = ({ id, name, date, resourceID }) => {
+	const { items: resources } = useSelector(
+		(state: RootState) => state.resources
+	);
 
-		const detail = useMemo(() => {
-			if (!eventsDetail) return;
-			const index = eventsDetail.findIndex(
-				(value) => value.id === `${resource}/${id}`
-			);
-			if (index === -1) return null;
-			return eventsDetail[index];
-		}, [eventsDetail]);
+	const resourceDetails = useMemo(() => {
+		if (!resources) return;
+		const index = resources.findIndex((value) => value.id === resourceID);
+		if (index === -1) return null;
+		return resources[index];
+	}, [resources]);
 
-		return (
-			<tr
-				ref={ref}
-				className={`${styles.tr} ${name ? styles.borderTop : null}`}
-			>
-				<td>
-					{name ? (
-						<div className={BgColours[name as keyof typeof BgColours]}>
-							{name}
-						</div>
-					) : null}
-				</td>
-				<td>
-					<div className={styles.onlyThreeLine}>
-						{!detail ? <Spinner /> : null}
-						{detail && detail.details}
-						{detail && detail.values && detail.values.length > 0
-							? `: ${detail.values.join(", ")}`
-							: null}
+	return (
+		<tr className={`${styles.tr} ${name ? styles.borderTop : null}`}>
+			<td>
+				{name ? (
+					<div className={BgColours[name as keyof typeof BgColours]}>
+						{name}
 					</div>
-				</td>
-				<td>{detail && detail.code}</td>
-				<td className={`${styles.noTextWrap} ${name ? "" : styles.greyDate}`}>
-					{DateUtils.formatDate(new Date(date))}
-				</td>
-			</tr>
-		);
-	}
-);
+				) : null}
+			</td>
+			<td>
+				<div className={styles.onlyThreeLine}>
+					{resourceDetails && resourceDetails.details}
+					{resourceDetails &&
+					resourceDetails.values &&
+					resourceDetails.values.length > 0
+						? `: ${resourceDetails.values.join(", ")}`
+						: null}
+				</div>
+			</td>
+			<td>{resourceDetails && resourceDetails.code}</td>
+			<td className={`${styles.noTextWrap} ${name ? "" : styles.greyDate}`}>
+				{DateUtils.formatDate(new Date(date))}
+			</td>
+		</tr>
+	);
+};
 
 export default HistoryItem;
